@@ -1,8 +1,8 @@
 require("node:dns").setServers(["1.1.1.1"], ["8.8.8.8"]);
 const express = require("express");
 const mongoose = require("mongoose");
-const { registration } = require("./controllers/registrationController");
-const { login } = require("./controllers/loginController");
+const { registration } = require("./controllers/registration");
+const { login } = require("./controllers/login");
 const app = express();
 app.use(express.json());
 
