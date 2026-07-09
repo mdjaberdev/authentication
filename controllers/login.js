@@ -1,7 +1,7 @@
 const Regis = require("../models/userModel");
 
 const login = async (req, res) => {
-  const { email, password, studentId } = req.body;
+  const { userName, email, password, studentId } = req.body;
   if (!email) {
     return res.send("Please type email");
   }
@@ -14,7 +14,7 @@ const login = async (req, res) => {
     return res.send("Please type studentId");
   }
 
-  const user = await Regis.findOne({ studentId });
+  const user = await Regis.findOne({ userName });
   if (!user) {
     return res.send({
       success: false,
@@ -27,6 +27,9 @@ const login = async (req, res) => {
 
   if (user.password !== password) {
     return res.send("Incorrect Password");
+  }
+  if (user.studentId !== studentId) {
+    return res.send("Incorrect studentId");
   }
 
   res.send({
