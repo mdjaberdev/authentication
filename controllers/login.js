@@ -1,15 +1,31 @@
-
 const Regis = require("../models/userModel");
 
 const login = async (req, res) => {
- const { email, password, studentId } = req.body;
- const user = await Regis.findOne({email, password, studentId})
+  const { email, password, studentId } = req.body;
+  if (!email) {
+    return res.send("Please type email");
+  }
 
- res.send({
+  if (!password) {
+    return res.send("Please type password");
+  }
+
+  if (!studentId) {
+    return res.send("Please type studentId");
+  }
+
+  const user = await Regis.findOne({ email, password, studentId });
+  if (!user) {
+    return res.send({
+      success: false,
+      message: "User Not Found",
+    });
+  }
+
+  res.send({
     success: true,
-    user: user
- })
-
-}
+    user: user,
+  });
+};
 
 module.exports = { login };
