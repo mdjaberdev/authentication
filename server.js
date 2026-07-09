@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 app.post("/registration", registration);
-app.get("/login", login);
+app.post("/login", login);
 
 mongoose
   .connect(

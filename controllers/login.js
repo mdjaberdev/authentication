@@ -14,12 +14,19 @@ const login = async (req, res) => {
     return res.send("Please type studentId");
   }
 
-  const user = await Regis.findOne({ email, password, studentId });
+  const user = await Regis.findOne({ studentId });
   if (!user) {
     return res.send({
       success: false,
       message: "User Not Found",
     });
+  }
+  if (user.email !== email) {
+    return res.send("Incorrect email");
+  }
+
+  if (user.password !== password) {
+    return res.send("Incorrect Password");
   }
 
   res.send({
