@@ -1,41 +1,49 @@
 const Regis = require("../models/userModel");
 
 const login = async (req, res) => {
-  const { userName, email, password, studentId } = req.body;
-  if (!email) {
-    return res.send("Please type email");
-  }
+  try {
+    const { userName, email, password, studentId } = req.body;
+    if (!email) {
+      return res.status(400).json("Please type email");
+    }
 
-  if (!password) {
-    return res.send("Please type password");
-  }
+    if (!password) {
+      return res.status(400).json("Please type password");
+    }
 
-  if (!studentId) {
-    return res.send("Please type studentId");
-  }
+    if (!studentId) {
+      return res.status(400).json("Please type studentId");
+    }
 
-  const user = await Regis.findOne({ userName });
-  if (!user) {
-    return res.send({
+    const user = await Regis.findOne({ userName });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User Not Found",
+      });
+    }
+    if (user.email !== email) {
+      return res.status(400).json("Incorrect email");
+    }
+
+    if (user.password !== password) {
+      return res.status(400).json("Incorrect Password");
+    }
+    if (user.studentId !== studentId) {
+      return res.status(400).json("Incorrect studentId");
+    }
+
+    return res.status(200).json({
+      success: true,
+      user: user,
+    });
+  } catch (error) {
+    return res.status(500).json({
       success: false,
-      message: "User Not Found",
+      message: "Internal Server Error",
+      error: error.message,
     });
   }
-  if (user.email !== email) {
-    return res.send("Incorrect email");
-  }
-
-  if (user.password !== password) {
-    return res.send("Incorrect Password");
-  }
-  if (user.studentId !== studentId) {
-    return res.send("Incorrect studentId");
-  }
-
-  res.send({
-    success: true,
-    user: user,
-  });
 };
 
 module.exports = { login };
