@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const dbconnection = () => {
+const dbConnection = () => {
   return mongoose
     .connect(
       "mongodb+srv://mdjaber:jhjaber2004@cluster1.gxwb1gq.mongodb.net/todo?appName=Cluster1",
@@ -8,8 +8,8 @@ const dbconnection = () => {
       console.log("Database Connected");
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error.message);
     });
 };
 
-module.exports = dbconnection;
+module.exports = dbConnection;
